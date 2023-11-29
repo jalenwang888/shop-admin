@@ -1,0 +1,32 @@
+{
+    "reportWarn": {
+        "icon": "tabler-alert-square-rounded",
+        "title": "警告",
+        "content": "请规范你的聊天室发言，如有不当言论或广告行为将会被禁言或永久封号",
+        "alertTitle": "警告内容",
+        "click": "reportWarn",
+        "status": "warn",
+        "cancel": "取消",
+        "confirm": "发送"
+    },
+    "reportStopSpeaker": {
+        "icon": "tabler-globe-off",
+        "title": "禁言",
+        "content": "违反聊天室发言规则，系统将自动禁言30分钟",
+        "alertTitle": "禁言内容",
+        "click": "reportStopSpeaker",
+        "status": "stopSpeaker",
+        "cancel": "取消",
+        "confirm": "发送"
+    },
+    "deleted": {
+        "icon": "tabler-trash",
+        "title": "删除",
+        "content": "确定要删除吗？此操作不可恢复！",
+        "alertTitle": "注意",
+        "status": "deleted",
+        "cancel": "取消",
+        "confirm": "删除"
+    }
+
+}
