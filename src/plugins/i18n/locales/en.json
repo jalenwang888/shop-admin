@@ -163,11 +163,25 @@
     "Time": "Time"
   },
 
+  "Apply For Money": "Apply For Money",
+  "Device": "Device",
+  "Purchase raw materials": "Purchase raw materials",
+  "Shipping fee": "Shipping fee",
+  "Packaging supplies": "Packaging supplies",
+  "Office Supplies": "Office Supplies",
+  "Rent": "Rent",
+  "Shop rent and house rent": "Shop rent and house rent",
+  "Salary": "Salary",
+  "Employee salary": "Employee salary",
+  "Other": "Other",
+  "Other fee": "Other fee",
+  "Select Item": "Select Item",
+  "Cost": "Cost",
+
 
   // 首页
   "Reports": "Reports",
   "Keywords": "Keywords"
 
-  
 
 }

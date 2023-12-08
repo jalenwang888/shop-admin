@@ -163,6 +163,21 @@
     "Time": "时间"
   },
 
+  "Apply For Money": "申请金额",
+  "Device": "设备",
+  "Purchase raw materials": "采购原材料",
+  "Shipping fee": "运费",
+  "Packaging supplies": "包装用品",
+  "Office Supplies": "办公用品",
+  "Rent": "房租",
+  "Shop rent and house rent": "店铺房租",
+  "Salary": "薪资",
+  "Employee salary": "员工薪资",
+  "Other": "其他",
+  "Other fee": "其他费用",
+  "Select Item": "选择项目",
+  "Cost": "成本",
+
     // 首页
     "Reports": "举报",
     "Keywords": "关键词"

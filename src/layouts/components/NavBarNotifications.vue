@@ -1,6 +1,6 @@
 <script setup>
   //import LaravelEcho from '@/helpers/laravel-echo'
-  import LaravelEcho from '@/helpers/laravel-echo-socket'
+  //import LaravelEcho from '@/helpers/laravel-echo-socket'
 
   import avatar3 from '@images/avatars/avatar-3.png'
   import avatar4 from '@images/avatars/avatar-4.png'
@@ -52,39 +52,6 @@
       });
   }
 
-  /** 
-  const useWebsocket = () => {
-  
-    LaravelEcho.instance.private(`server.im.notify.${userData.id}`)
-      //Echo.private(`server.im.notify.${userData.id}`)
-      .listen("ImEvent", (e) => {
-
-        toast.info(e.data.subtitle + e.data.time, {
-          timeout: false,
-        });
-
-        let content = {
-          id: e.data.id,
-          text: e.data.text,
-          title: e.data.title,
-          subtitle: e.data.subtitle,
-          time: e.data.time,
-          isSeen: false,
-        }
-
-        content.typeLink = "/reports/view/" + e.data.text
-        content.link = "/reports/view/" + e.data.id
-
-        notifications.value.push(content)
-      }).error((error) => {
-        //this.$forceUpdate();
-        //location.reload();
-        console.error("PUSHER HERE ERROE" + JSON.stringify(error));
-        //return router.push('/logout')
-      });
-  }
-
-  */
 
   onMounted(() => {
     notificationStore.notifications().then(response => {
@@ -102,7 +69,7 @@
 
     })
 
-    useWebsocket()
+    //useWebsocket()
     //LaravelEcho.setToken(localStorage.getItem("accessToken"))
 
   })
@@ -148,7 +115,7 @@
 
 
   onUnmounted(() => {
-    LaravelEcho.leave(`server.im.notify.${userData.id}`)
+    //LaravelEcho.leave(`server.im.notify.${userData.id}`)
   })
 
 </script>
