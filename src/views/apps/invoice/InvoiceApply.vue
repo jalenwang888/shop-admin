@@ -19,14 +19,21 @@ const clients = ref([])
 const isFormValid = ref(false)
 const refForm = ref()
 const subtotal = ref(0)
+const refreshKey = ref(0); // 刷新的 key
 
-const selectedPaymentMethod = ref('Gcash')
+const addThousandSeparator = (number) => {
+  // 使用正则表达式添加千位符
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 const paymentMethods = [
-  'Gcash',
-  'Bank Account',
   'Cash',
+  'Gcash',
+  'AUB',
+  'EastWest',
+  'BDO',
 ]
+
 
 // 👉 fetchClients
 invoiceListStore.fetchClients().then(response => {
@@ -38,30 +45,32 @@ invoiceListStore.fetchClients().then(response => {
 const addItem = () => {
   // eslint-disable-next-line vue/no-mutating-props
   props.data.purchasedProducts.push({
-    title: 'Purchase raw materials',
+    title: '',
     cost: 0,
     qty: 1,
     description: '',
   })
-
-
-  props.data.purchasedProducts.forEach(product => {
-    //totalAmount += product;
-    
-  });
-  console.log("Product:"+JSON.stringify(props.data.purchasedProducts))
 }
 
 
 const removeProduct = id => {
 
   // eslint-disable-next-line vue/no-mutating-props
+  refreshKey.value += 1;
+  
   props.data.purchasedProducts.splice(id, 1)
+
+  totalAmount()
 }
 
-const totalAmount = amount => {
-    props.data.totalAmount = amount
-    //console.log(amount);
+const totalAmount = () => {
+  subtotal.value = 0
+  props.data.purchasedProducts.forEach((product, index) => {
+    console.log("totalAmount: "+ JSON.stringify(product))
+
+    subtotal.value  +=  (Number(product.cost) * Number(product.qty))
+    props.data.paymentDetails.totalDue = subtotal.value
+  })
 }
 </script>
 
@@ -159,17 +168,19 @@ const totalAmount = amount => {
 
     <!-- 👉 Add purchased products -->
     <VCardText class="add-products-form">
-      <div
-        v-for="(product, index) in props.data.purchasedProducts"
-        :key="product.title"
-        class="my-4 ma-sm-4"
-      >
-        <InvoiceItemEdit
-          :id="index"
-          :data="product"
-          @remove-product="removeProduct"
-          @total-amount="totalAmount"
-        />
+      <div :key="refreshKey">
+        <div
+          v-for="(product, index) in props.data.purchasedProducts"
+          :key="product.title"
+          class="my-4 ma-sm-4"
+        >
+          <InvoiceItemEdit
+            :id="index"
+            :data="product"
+            @remove-product="removeProduct"
+            @total-amount="totalAmount"
+          />
+        </div>
       </div>
 
       <div class="mt-4 ma-sm-4">
@@ -183,23 +194,38 @@ const totalAmount = amount => {
 
     <!-- 👉 Total Amount -->
     <VCardText class="d-flex justify-space-between flex-wrap flex-column flex-sm-row">
-      <div class="mx-sm-4 my-4">
+      <div class="mx-sm-4 my-4 v-col-sm-6 v-col-lg-4 v-col-12">
         <div class="app-select flex-grow-1 mb-5">
           
             <!-- 👉 Select payment method -->
             <AppSelect
-              v-model="selectedPaymentMethod"
+              v-model="props.data.paymentDetails.bankName"
               :items="paymentMethods"
               label="Accept Payment Via"
               class="mb-6"
             />
 
         </div>
-
+        <VRow>
+        <VCol
+          cols="12"
+          md="6"
+        >
         <AppTextField
-          v-model="props.data.thanksNote"
+          v-model="props.data.paymentDetails.fullName"
+          placeholder="Full Name"
+        />
+        </VCol>
+        <VCol
+          cols="12"
+          md="6"
+        >
+        <AppTextField
+          v-model="props.data.paymentDetails.account"
           placeholder="Account"
         />
+        </VCol>
+        </VRow>
       </div>
 
       <div class="my-4 mx-sm-4">
@@ -224,16 +250,16 @@ const totalAmount = amount => {
 
             <td class="font-weight-medium text-high-emphasis">
               <p class="mb-2">
-                {{ props.data.totalAmount }}
+                {{ addThousandSeparator(subtotal) }}
               </p>
               <p class="mb-2">
-                $00.00
+                00.00
               </p>
               <p class="mb-2">
-                $00.00
+                00.00
               </p>
               <p class="mb-2">
-                {{ props.data.totalAmount }}
+                {{ addThousandSeparator(subtotal) }}
               </p>
             </td>
           </tr>

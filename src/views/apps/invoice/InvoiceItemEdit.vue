@@ -9,7 +9,7 @@ const props = defineProps({
     type: Object,
     required: true,
     default: () => ({
-      title: 'Purchase raw materials',
+      title: '',
       cost: 0,
       qty: 1,
       description: '',
@@ -24,75 +24,89 @@ const emit = defineEmits([
 
 const itemsOptions = [
   {
-    title: 'Purchase raw materials',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Purchase raw materials'
   },
   {
-    title: 'Packaging supplies',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Packaging supplies'
   },
   {
-    title: 'Device',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Device'
   },
   {
-    title: 'Shipping fee',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Shipping fee'
   },
   {
-    title: 'Office Supplies',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Office Supplies'
   },
   {
-    title: 'Rent',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Rent'
   },
   {
-    title: 'Salary',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Salary'
   },
   {
-    title: 'Other',
-    cost: 0,
-    qty: 1,
-    description: '',
+    title: 'Other'
   },
 ]
 
-const selectedItem = ref('Purchase raw materials')
-const localProductData = ref(structuredClone(toRaw(props.data)))
 
-const setItem = (selectedItem,cost,qty) => {
+
+//const localProductData = ref(structuredClone(toRaw(props.data)))
+
+const localProductData = ref(props.data)
+const selectedItem = ref(localProductData.value.title)
+
+const setItem1 = (selectedItem,productData) => {
   
   const item = itemsOptions.filter(obj => {
     return obj.title === selectedItem.value
   })
-  localProductData.value = item[0]
-  localProductData.value.cost = cost
-  localProductData.value.qty = qty
-  props.data.apply = localProductData
-  console.log("Item: " + JSON.stringify(localProductData.value))
+
+  console.log("Item: "+ JSON.stringify(productData))
+  
+  localProductData.value = item
+  localProductData.value.title = productData.title
+  localProductData.value.cost = productData.cost
+  localProductData.value.qty = productData.qty
+  localProductData.value.description = productData.description
+
+  console.log("localProductData: "+ JSON.stringify(productData))
+
+  props.data.title = productData.title
+  props.data.cost = productData.cost
+  props.data.qty = productData.qty
+  props.data.description = productData.description
+
+}
+
+const setItem = (selectedItem,productData) => {
+  
+  const item = itemsOptions.filter(obj => {
+    return obj.title === selectedItem.value
+  })
+
+  localProductData.value.title = productData.title
+  localProductData.value.cost = productData.cost
+  localProductData.value.qty = productData.qty
+  localProductData.value.description = productData.description
+
+  props.data.cost = productData.cost
+  props.data.qty = productData.qty
+  props.data.description = productData.description
+
+  console.log("Item: "+ JSON.stringify(props.data))
+
+
 }
 
 watch(selectedItem, () => {
   const item = itemsOptions.filter(obj => {
     return obj.title === selectedItem.value
   })
-  localProductData.value = item[0]
+  
+  localProductData.value.title = item[0].title
+  console.log("selectedItem: "+ JSON.stringify(localProductData.value.title))
+
 })
 
 
@@ -104,10 +118,13 @@ const totalPrice = computed(() => Number(localProductData.value.cost) * Number(l
 
 watch(totalPrice, () => {
   //console.log("total Peice: " + totalPrice.value);
-  
-  setItem(selectedItem,localProductData.value.cost, localProductData.value.qty)
-  emit('totalAmount', totalPrice.value)
+  console.log("Price: "+ JSON.stringify(localProductData.value))
+
+  setItem(selectedItem,localProductData.value)
+
+  emit('totalAmount')
 }, { immediate: true })
+
 </script>
 
 <template>
@@ -164,6 +181,7 @@ watch(totalPrice, () => {
           cols="12"
           md="6"
         >
+        <!--
           <AppSelect
             v-model="selectedItem"
             :items="itemsOptions"
@@ -172,7 +190,15 @@ watch(totalPrice, () => {
             label="Select Item"
             class="mb-3"
           />
-
+        -->
+        <AppSelect
+            v-model="selectedItem"
+            :items="itemsOptions"
+            item-title="title"
+            item-value="title"
+            label="Select Item"
+            class="mb-3"
+          />
           <AppTextarea
             v-model="localProductData.description"
             rows="2"

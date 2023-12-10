@@ -21,11 +21,11 @@ const invoiceData = ref({
     },
   },
   paymentDetails: {
-    totalDue: '$12,110.55',
-    bankName: 'American Bank',
-    country: 'United States',
-    iban: 'ETD95476213874685',
-    swiftCode: 'BR91905',
+    totalDue: '',
+    bankName: 'Gcash',
+    country: '',
+    iban: '',
+    swiftCode: '',
   },
   purchasedProducts: [{
     title: '',
