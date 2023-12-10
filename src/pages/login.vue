@@ -61,8 +61,7 @@
 
       localStorage.setItem('accessToken', accessToken)
 
-      imLogin()
-  
+ 
       // Redirect to `to` query if exist or redirect to index route
       router.replace(route.query.to ? String(route.query.to) : '/')
     }).catch(e => {
@@ -82,28 +81,6 @@
     })
   }
 
-  const imLogin = () => {
-      imStore.imLogin().then(response => {
-        let userDataStore = []
-        let imAdmin =
-        {
-          'userSig': response.data.userSig,
-          'userId': response.data.userId,
-        }
-        userDataStore = JSON.parse(localStorage.getItem('userData'));
-  
-        userDataStore.imAdmin = imAdmin
-        localStorage.setItem('userData', JSON.stringify(userDataStore));
-  
-        imStore.login(imAdmin).then().catch(error => {
-          console.error(error.response)
-          return toast.error("IM登录系统错误，请联系管理员！[400009]")
-        })
-      }).catch(error => {
-        console.error(error.response)
-        return toast.error("IM获取信息错误，请联系管理员！[400010]")
-      })
-    }
   </script>
   
   <template>
